@@ -23,9 +23,6 @@ class TaskController extends Controller
         $tags = Tag::all();
         $id = Auth::id();
         $todolist =  Todolist::where('user_id', $id)->get();
-        
-       
-
         return view('index', ['todolists' => $todolist, 'user' => $user, 'tags' => $tags]);
     }
 
@@ -78,13 +75,16 @@ class TaskController extends Controller
     $tag_id = $request -> input('tag_id');
     $user_id = $request -> input('user_id');
     $form['user_id'] = Auth::id();
-    $query = Todolist::query($id);
+    $query = Todolist::query();
 
     if($keyword!=null){
       $query->where(('todolists.name'), 'LIKE', "%{$keyword}%")->where('todolists.user_id', $id)->get();
     }
     if($tag_id!=null){
       $query->where('todolists.tag_id', $tag_id)->where('todolists.user_id', $id)->get();
+    }
+    if($tags!=null){
+      $query->where('todolists.tag_id', $tags)->where('todolists.user_id', $id)->get();
     }
 
     $items = $query->get();

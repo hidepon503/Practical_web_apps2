@@ -242,7 +242,7 @@
           @csrf
             <input type="text" name="keyword" class="todolist_task-create-form"  >
             <select name="tag_id" class="todolist_table-select-tag">
-              <option value=""></option>
+              <option value="{{$tags}}"></option>
               @foreach($tags as $tag)          
                <option value="{{$tag->id}}">{{$tag->name}}</option>
               @endforeach
