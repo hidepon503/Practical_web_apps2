@@ -22,7 +22,10 @@ class TaskController extends Controller
         $user = Auth::user();        
         $tags = Tag::all();
         $id = Auth::id();
-        $todolist =  Todolist::where('user_id', $id)->get();
+        $todolist =  Todolist::where('user_id', \Auth::user()->id)->get();
+        
+       
+
         return view('index', ['todolists' => $todolist, 'user' => $user, 'tags' => $tags]);
     }
 
@@ -67,45 +70,26 @@ class TaskController extends Controller
 
     
     public function search(Request $request)
-    {
-        $tags = Tag::all();
-        $user = Auth::user();
-        $keyword = $request -> input('keyword');
-        $tag_id = $request -> input('tag_id');
-        $user_id = $request -> input('user_id');
-        $form['user_id'] = Auth::id();
-        $query = Todolist::query();
-       /* $query->join('tags', function ($query) use ($request){
-            $query->on('todolists.tag_id','=', 'tags.id');
-            });*/
-
-        if($keyword!=null){
-            $query->where(('todolists.name'), 'LIKE', "%{$keyword}%")->get();
-        }
-        if($tag_id!=null){
-            $query->where('tag_id', $tag_id)->get();
-        }
-
-        /*selectボックスなので下記が正解？
-        if(is_array($request->input('tag_id'))){
-            $query->where(function($q) use($request){
-                foreach($request->input('tag_id') as $tag_id){
-                    $q->orWhrer('tag_id,$tag_id);
-                }
-        )};
-        */
+  {
+    $tags = Tag::all();
+    $user = Auth::user();
+    $id = Auth::id();
+    $keyword = $request -> input('keyword');
+    $tag_id = $request -> input('tag_id');
+    $user_id = $request -> input('user_id');
+    $form['user_id'] = Auth::id();
+    $query = Todolist::query($id);
 
 
-        /*if(!empty($user_id)){
-            $query->where('user', 'LIKE', $user_id);
-        }*/
-
-        
-        $items = $query->get();
-        
-        return view('search', compact('items', 'keyword', 'tag_id', 'tags', 'user'));
+    if($keyword!=null){
+      $query->where(('todolists.name'), 'LIKE', "%{$keyword}%")->where('user_id', $id)->get();
+    }
+    if($tag_id!=null){
+      $query->where('tag_id.user_id', $tag_id)->where('user_id', $id)->get();
     }
 
-
-}
+    $items = $query->get();
         
+    return view('search', compact('items', 'keyword', 'tag_id', 'tags', 'user'));
+  }
+}
