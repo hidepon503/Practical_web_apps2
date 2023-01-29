@@ -69,6 +69,7 @@ class TaskController extends Controller
     public function search(Request $request)
   {
     $tags = Tag::all();
+   
     $user = Auth::user();
     $id = Auth::id();
     $keyword = $request -> input('keyword');
@@ -82,9 +83,6 @@ class TaskController extends Controller
     }
     if($tag_id!=null){
       $query->where('todolists.tag_id', $tag_id)->where('todolists.user_id', $id)->get();
-    }
-    if($tags!=null){
-      $query->where('todolists.tag_id', $tags)->where('todolists.user_id', $id)->get();
     }
 
     $items = $query->get();
