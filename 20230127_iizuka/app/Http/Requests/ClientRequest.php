@@ -25,7 +25,6 @@ class ClientRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:20',
-            /*'keyword' => 'required|string|max:20',*/
         ];
     }
 
@@ -34,7 +33,6 @@ class ClientRequest extends FormRequest
         return [
             'required' => "タスクを入力してください。",
             'name.max' => "20文字以内で入力してください。",
-            /*'keyword.max' => "20文字以内で入力してください。"*/
         ];
 
     }

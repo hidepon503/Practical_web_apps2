@@ -226,19 +226,7 @@
             </form>            
           </div>
         </div>
-
-        <!--検索フォーム-->
-
-        <form action="search" class="todolist_task-create"  method="get">
-          <!--@if (count($errors) > 0)
-           <ul class="todolist_warning">
-              @foreach ($errors->all() as $error)
-                <li class="todolist_warning-title">{{$error}}</li>
-              @endforeach
-            </ul>
-          @endif
-          getメソッドでリエイトや保存等のアクションを行わないのでバリデーションは不要
-          -->
+        <form action="search" class="todolist_task-create"  method="get">      
           @csrf
             <input type="text" name="keyword" class="todolist_task-create-form"  >
             <select name="tag_id" class="todolist_table-select-tag">
@@ -247,13 +235,8 @@
                <option  value="{{$tag->id}}" >{{$tag->name}}</option>
               @endforeach
             </select>
-            <!--<input type="hidden" name="user_id" value="{{$user->id}}">-->
-
             <button class="todolist_task-search-button">検索</button>
         </form>
-
-        <!--検索フォームここまで-->
-
          <table class="todolist_table">
                <tr>
                  <th class="todolist_table-date">作成日</th>
@@ -262,10 +245,8 @@
                  <th class="todolist_table-create">更新</th>
                  <th class="todolist_table-delete">削除</th>
                </tr>
-          
             @if(!empty($items))
               @foreach($items as $item)
-                <!--キーワードとタグの検索にヒットしたものを繰り返す-->
                 <tr>
                       <td>{{$item->created_at}}</td>
                     <form action="/edit" class="" method="POST">

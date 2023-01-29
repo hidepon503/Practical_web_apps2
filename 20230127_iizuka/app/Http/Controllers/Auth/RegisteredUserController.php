@@ -34,14 +34,6 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisterRequest $request)
     {
-        /*ResisterRequestに記入する関係で不要
-        $request->validate([
-            'name' => ['required', 'string',  'max:191'],
-            'email' => ['required', 'string', 'email', 'min:8', 'max:191', 'unique:users'],
-            'password' => ['required', 'min:8', 'max:191','confirmed', Rules\Password::defaults()],
-        ]);
-        */
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

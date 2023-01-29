@@ -206,12 +206,6 @@
               @foreach($tags as $tag)
                <option value="{{$tag->id}}">{{$tag->name}}</option>
               @endforeach
-               <!--foreach文を使わない場合
-               <option value="1">家事</option>
-               <option value="2">勉強</option>
-               <option value="3">運動</option>
-               <option value="4">食事</option>
-               <option value="5">移動</option>-->
             </select>
             <button class="todolist_task-create-bottun">追加</button>
         </form>
@@ -234,14 +228,6 @@
                     </td>
                     <td>
                         <select name="tag_id" id="tag_id" class="todolist_table-select-tag" >
-                          <!--
-                          @foreach($tags as $tag)
-                            <option value="{{ $tag->id }}" @if ($tag->id == old('tag_id', $todolist['tag_id'])) selected @endif>
-                              {{ $tag->name }}
-                            </option>
-                          @endforeach
-                          -->
-                          
                           @foreach($tags as $tag)
                             @if(!empty($todolist->tag_id) && $todolist->tag_id == $tag->id) || old('tag_id') == $todolist->tag_id )
                               <option value="{{$tag->id}}" selected>{{$tag->name}}</option>
@@ -249,14 +235,6 @@
                               <option value="{{$tag->id}}">{{$tag->name}}</option>
                             @endif
                           @endforeach
-                           
-                          <!--foreach を利用する事で記述を簡単に出来る。
-                          <option value="1">家事</option>
-                          <option value="2">勉強</option>
-                          <option value="3">運動</option>
-                          <option value="4">食事</option>
-                          <option value="5">移動</option>
-                          -->
                         </select>
                     </td>
                     <td>
