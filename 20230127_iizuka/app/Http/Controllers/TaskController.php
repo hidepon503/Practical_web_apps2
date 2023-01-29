@@ -23,6 +23,9 @@ class TaskController extends Controller
         $tags = Tag::all();
         $id = Auth::id();
         $todolist =  Todolist::where('user_id', $id)->get();
+        
+       
+
         return view('index', ['todolists' => $todolist, 'user' => $user, 'tags' => $tags]);
     }
 
@@ -55,38 +58,33 @@ class TaskController extends Controller
     {
         $user = Auth::user();
         $tags = Tag::all();
-        $keyword = $request -> input('keyword');
-        $tag_id = $request -> input('tag_id');
-        /*$user_id = $request -> input('user_id');
-        検索にユーザーは含まれていないので不要 */
+        $id = Auth::id();
         $query = Todolist::query();
         $items = $query->get();
-        
-        return view('search', [ 'user' => $user, 'tags' => $tags,]);
+        return view('search',  compact('user', 'tags', 'id') );
     }
 
     
     public function search(Request $request)
   {
     $tags = Tag::all();
-   
     $user = Auth::user();
     $id = Auth::id();
     $keyword = $request -> input('keyword');
     $tag_id = $request -> input('tag_id');
     $user_id = $request -> input('user_id');
     $form['user_id'] = Auth::id();
-    $query = Todolist::query();
+    $query = Todolist::query()->where('user_id',$id);
 
     if($keyword!=null){
-      $query->where(('todolists.name'), 'LIKE', "%{$keyword}%")->where('todolists.user_id', $id)->get();
+      $query->where(('todolists.name'), 'LIKE', "%{$keyword}%")->where('user_id', $id)->get();
     }
     if($tag_id!=null){
-      $query->where('todolists.tag_id', $tag_id)->where('todolists.user_id', $id)->get();
+      $query->where('tag_id', $tag_id)->where('user_id', $id)->get();
     }
 
     $items = $query->get();
         
-    return view('search', compact('items', 'keyword', 'tag_id', 'tags', 'user'));
+    return view('search', compact('items', 'keyword', 'tag_id', 'tags',  'user'));
   }
 }
